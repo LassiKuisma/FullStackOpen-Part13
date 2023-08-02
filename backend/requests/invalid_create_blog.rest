@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "author": "Somebody",
+  "title": "The url is missing",
+  "likes": 1
+}

@@ -8,12 +8,8 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  try {
-    const blog = await Blog.create(req.body);
-    return res.json(blog);
-  } catch (error) {
-    return res.status(400).json({ error });
-  }
+  const blog = await Blog.create(req.body);
+  return res.json(blog);
 });
 
 router.get('/:id', async (req, res) => {
@@ -28,7 +24,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   const blog = await Blog.findByPk(req.params.id);
   if (blog) {
-    blog.likes = req.body.likes;
+    blog.likes = Number(req.body.likes);
     await blog.save();
     res.json(blog);
   } else {

@@ -1,2 +1,4 @@
 node_modules
 .env
+connect_to_db.sh
+flyctl_connect_db.sh
