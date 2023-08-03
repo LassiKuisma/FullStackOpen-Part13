@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 
 const { sequelize } = require('../util/db');
+const { yearIsValid } = require('../util/yearValidator');
 
 class Blog extends Model {}
 
@@ -26,6 +27,13 @@ Blog.init(
     likes: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
+    },
+    year: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        yearIsValid,
+      },
     },
   },
   {

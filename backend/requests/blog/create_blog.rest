@@ -1,10 +1,11 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imxhc3NpQGV4YW1wbGUuY29tIiwiaWQiOjEyLCJpYXQiOjE2OTEwNjMxNzN9.Qp9Qm-M1_ViubFnb646PIvpm0-kmm8X4HMGnc1frWkc
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InllZWhhd0BleGFtcGxlLmNvbSIsImlkIjoyLCJpYXQiOjE2OTEwNzYzNjh9.9Fi6H9kUWzpQFLxRLuzUeP-uGHEKZnJkhBGzJM4UOKI
 
 {
   "author": "Somebody",
   "url": "example.com",
-  "title": "You can find things here",
-  "likes": 1
+  "title": "New article",
+  "likes": 6,
+  "year": 2023
 }

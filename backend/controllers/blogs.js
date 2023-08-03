@@ -58,6 +58,11 @@ router.get('/', async (req, res) => {
 
 router.post('/', tokenExtractor, async (req, res) => {
   const user = await User.findByPk(req.decodedToken.id);
+
+  if (!user) {
+    return res.status(404).send({ error: 'User not found' });
+  }
+
   const blog = await Blog.create({
     ...req.body,
     userId: user.id,
