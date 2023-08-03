@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+const { SECRET } = require('../util/config');
 const router = require('express').Router();
 
 const { Blog, User } = require('../models');
