@@ -30,4 +30,28 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.put('/:username', async (req, res) => {
+  const newName = req.body.name;
+  if (!newName) {
+    return res.status(400).send({ error: 'new name missing' });
+  }
+
+  const username = req.params.username;
+
+  const user = await User.findOne({
+    where: {
+      username: username,
+    },
+  });
+
+  if (!user) {
+    return res.status(404).end();
+  }
+
+  user.name = newName;
+  await user.save();
+
+  res.json(user);
+});
+
 module.exports = router;
