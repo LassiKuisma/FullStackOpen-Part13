@@ -63,13 +63,24 @@ router.put('/:id', blogFinder, async (req, res) => {
   }
 });
 
-router.delete('/:id', blogFinder, async (req, res) => {
+router.delete('/:id', tokenExtractor, blogFinder, async (req, res) => {
+  const user = await User.findByPk(req.decodedToken.id);
   const blog = req.blog;
-  if (blog) {
+  if (!blog) {
+    return res.status(404).send({ error: 'Blog not found' });
+  }
+  if (!user) {
+    return res.status(404).send({ error: 'User not found' });
+  }
+
+  const canDelete = blog.userId === user.id;
+  if (canDelete) {
     await blog.destroy();
-    res.status(204).end();
+    return res.status(204).end();
   } else {
-    res.status(404).end();
+    return res
+      .status(401)
+      .send({ error: 'Cannot delete blogs created by others' });
   }
 });
 
