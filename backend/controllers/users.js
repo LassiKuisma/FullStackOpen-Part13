@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { User, Blog } = require('../models');
+const { User, Blog, Session } = require('../models');
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
@@ -71,6 +71,33 @@ router.put('/:username', async (req, res) => {
   await user.save();
 
   res.json(user);
+});
+
+router.put('/:id/ban', async (req, res) => {
+  const setBanned = req.body.banned;
+
+  if (setBanned === undefined) {
+    return res.status(400).send({ error: 'missing whether to ban or unban' });
+  }
+
+  const user = await User.findByPk(req.params.id);
+  if (!user) {
+    return res.status(404).send({ error: 'User not found' });
+  }
+
+  user.disabled = setBanned;
+  await user.save();
+
+  if (setBanned) {
+    // remove login token
+    await Session.destroy({
+      where: {
+        userId: user.id,
+      },
+    });
+  }
+
+  return res.status(204).end();
 });
 
 module.exports = router;

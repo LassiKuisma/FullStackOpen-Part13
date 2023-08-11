@@ -1,0 +1,6 @@
+PUT http://localhost:3001/api/users/4/ban
+Content-Type: application/json
+
+{
+  "banned": true
+}
