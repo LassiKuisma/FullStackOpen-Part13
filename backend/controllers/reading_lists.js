@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const { Blog, User, ReadingList } = require('../models');
 
-const { tokenExtractor } = require('../util/tokenExtractor');
+const { userExtractor } = require('../util/userExtractor');
 
 router.post('/', async (req, res) => {
   const userId = req.body.userId;
@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
   res.json(listItem);
 });
 
-router.put('/:id', tokenExtractor, async (req, res) => {
+router.put('/:id', userExtractor, async (req, res) => {
   const markedAsRead = req.body.read;
 
   if (markedAsRead === undefined) {
@@ -45,11 +45,7 @@ router.put('/:id', tokenExtractor, async (req, res) => {
     return res.status(404).send({ error: 'Blog not found' });
   }
 
-  const user = await User.findByPk(req.decodedToken.id);
-
-  if (!user) {
-    return res.status(404).send({ error: 'User not found' });
-  }
+  const user = req.user;
 
   const entry = await ReadingList.findOne({
     where: {
