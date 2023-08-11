@@ -54,6 +54,10 @@ router.put('/:id', userExtractor, async (req, res) => {
     },
   });
 
+  if (!entry) {
+    return res.status(404).send({ error: 'Entry not found' });
+  }
+
   entry.read = markedAsRead;
   await entry.save();
 
