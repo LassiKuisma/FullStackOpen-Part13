@@ -9,9 +9,11 @@ const userExtractor = async (req, res, next) => {
     return res.status(401).json({ error: 'token missing' });
   }
 
+  const token = authorization.substring(7);
+
   let decodedToken;
   try {
-    decodedToken = jwt.verify(authorization.substring(7), SECRET);
+    decodedToken = jwt.verify(token, SECRET);
   } catch {
     return res.status(401).json({ error: 'token invalid' });
   }
@@ -23,7 +25,7 @@ const userExtractor = async (req, res, next) => {
   }
 
   const session = await Session.findByPk(user.id);
-  if (!session) {
+  if (!session || session.token !== token) {
     return res.status(401).send({ error: 'Expired token' });
   }
 
